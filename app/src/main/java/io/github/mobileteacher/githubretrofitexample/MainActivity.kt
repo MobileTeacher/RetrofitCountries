@@ -25,33 +25,23 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getCountriesResponse(){
-        val countriesAPI = RetrofitProvider.countriesAPI
-
-        val call = countriesAPI.getAllCountries()
-
-        call.enqueue(object : Callback<List<Country>> {
-            override fun onFailure(call: Call<List<Country>>, t: Throwable) {
-                Toast.makeText(this@MainActivity,
-                    "FALHOU A REQUISICAO", Toast.LENGTH_SHORT).show()
-            }
-
-            override fun onResponse(call: Call<List<Country>>,
-                                    response: Response<List<Country>>) {
-                if (response.code() == 200){
-                    val countriesList = response.body()
-                    val builder = StringBuilder()
-                    countriesList?.forEach {
-                        builder.appendln("${it.name} | ${it.capital} | ${it.area}")
-                    }
-                    response_textview.text = builder.toString()
-                } else {
-                    response_textview.text = response.message()
-                }
-            }
-
+        CountryService().getAllCountries(countriesSuccess, {
+            Toast.makeText(this@MainActivity,
+                "FALHOU com ${it.message}", Toast.LENGTH_SHORT).show()
         })
+    }
 
+    private val countriesSuccess:(list: List<Country>?)->Unit = {list->
+        val builder = StringBuilder()
 
+        list?.let {list->
+            list.forEach {
+                builder.appendln("${it.name} | ${it.capital} | ${it.area}")
+            }
+            response_textview.text = builder.toString()
+        } ?: run {
+            Toast.makeText(this@MainActivity, "Lista nula", Toast.LENGTH_SHORT).show()
+        }
     }
 
 }

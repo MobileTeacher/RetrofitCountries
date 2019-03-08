@@ -36,7 +36,8 @@ class MainActivity : AppCompatActivity() {
 
         list?.let {list->
             list.forEach {
-                builder.appendln("${it.name} | ${it.capital} | ${it.area}")
+                builder.appendln("${it.name} | ${it.capital} | ${it.area}" +
+                        "${it.latlng} | ${it.languages[0].name} ${it.languages[0].code}")
             }
             response_textview.text = builder.toString()
         } ?: run {

@@ -5,10 +5,6 @@ import android.os.Bundle
 import android.widget.Toast
 import io.github.mobileteacher.githubretrofitexample.model.Country
 import kotlinx.android.synthetic.main.activity_main.*
-import okhttp3.ResponseBody
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.lang.StringBuilder
 
 class MainActivity : AppCompatActivity() {
@@ -22,13 +18,21 @@ class MainActivity : AppCompatActivity() {
         start_button.setOnClickListener {
             getCountriesResponse()
         }
+
+        search_button.setOnClickListener { searchCountries(search_edittext.text.toString()) }
     }
 
     private fun getCountriesResponse(){
-        CountryService().getAllCountries(countriesSuccess, {
-            Toast.makeText(this@MainActivity,
-                "FALHOU com ${it.message}", Toast.LENGTH_SHORT).show()
-        })
+        CountryService().getAllCountries(countriesSuccess, failureAction)
+    }
+
+    private fun searchCountries(countryName: String){
+        CountryService().searchCountries(countryName, countriesSuccess, failureAction)
+    }
+
+    private val failureAction: (t: Throwable)->Unit = {
+        Toast.makeText(this@MainActivity,
+            "FALHOU com ${it.message}", Toast.LENGTH_SHORT).show()
     }
 
     private val countriesSuccess:(list: List<Country>?)->Unit = {list->
@@ -44,5 +48,4 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this@MainActivity, "Lista nula", Toast.LENGTH_SHORT).show()
         }
     }
-
 }

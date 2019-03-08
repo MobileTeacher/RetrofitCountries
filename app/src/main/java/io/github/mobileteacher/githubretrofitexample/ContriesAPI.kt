@@ -4,7 +4,7 @@ import io.github.mobileteacher.githubretrofitexample.model.Country
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.GET
-
+import retrofit2.http.Path
 
 
 interface ContriesAPI {
@@ -14,5 +14,8 @@ interface ContriesAPI {
 
     @GET("all")
     fun getAllCountries(): Call<List<Country>>
+
+    @GET("name/{term}")
+    fun searchCountries(@Path("term") searchTerm:String): Call<List<Country>>
 
 }

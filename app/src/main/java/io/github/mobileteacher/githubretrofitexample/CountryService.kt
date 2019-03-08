@@ -4,10 +4,11 @@ import io.github.mobileteacher.githubretrofitexample.model.Country
 
 class CountryService {
 
-    fun searchCountries(searchTerm: String, actionSuccess: (list:List<Country>?)->Unit,
+    fun searchCountries(searchTerm: String, fullText:Boolean,
+                        actionSuccess: (list:List<Country>?)->Unit,
                    actionFailure: (t: Throwable)->Unit){
 
-        val call = RetrofitProvider.countriesAPI.searchCountries(searchTerm)
+        val call = RetrofitProvider.countriesAPI.searchCountries(searchTerm, fullText)
         call.executar(actionSuccess, actionFailure)
     }
 

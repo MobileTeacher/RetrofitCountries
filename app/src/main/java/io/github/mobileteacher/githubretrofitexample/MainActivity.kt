@@ -19,7 +19,9 @@ class MainActivity : AppCompatActivity() {
             getCountriesResponse()
         }
 
-        search_button.setOnClickListener { searchCountries(search_edittext.text.toString()) }
+        search_button.setOnClickListener {
+            searchCountries(search_edittext.text.toString())
+        }
     }
 
     private fun getCountriesResponse(){
@@ -27,7 +29,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun searchCountries(countryName: String){
-        CountryService().searchCountries(countryName, countriesSuccess, failureAction)
+        CountryService().searchCountries(countryName, checkBox.isChecked, countriesSuccess, failureAction)
     }
 
     private val failureAction: (t: Throwable)->Unit = {

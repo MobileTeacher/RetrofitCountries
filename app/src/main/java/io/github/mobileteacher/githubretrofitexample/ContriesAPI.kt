@@ -5,6 +5,7 @@ import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 
 interface ContriesAPI {
@@ -16,6 +17,7 @@ interface ContriesAPI {
     fun getAllCountries(): Call<List<Country>>
 
     @GET("name/{term}")
-    fun searchCountries(@Path("term") searchTerm:String): Call<List<Country>>
+    fun searchCountries(@Path("term") searchTerm:String,
+                        @Query("fullText") fulltext:Boolean=false): Call<List<Country>>
 
 }
